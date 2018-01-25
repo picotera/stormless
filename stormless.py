@@ -10,12 +10,12 @@ import base64
 requests_toolbelt.adapters.appengine.monkeypatch()
 
 
-counts = {}
+data = {}
 
-class Spout(webapp2.RequestHandler):
+class Data(webapp2.RequestHandler):
   def get(self):
     self.response.headers["Content-Type"] = "text/plain"
-    self.response.write(counts)
+    self.response.write(data)
 
 
 def call(payload, topology, utils_str):
@@ -25,14 +25,10 @@ def call(payload, topology, utils_str):
 
 
 class Bolt(webapp2.RequestHandler):
-  test = """global incr
-def incr(x):
-    return x+1
-"""
   topology = """{
 \"spout\": (lambda x: (\"split\", \"how much wood would the woodchuck chuck if the wouldchuck could chuck wood\")),
 \"split\": (lambda sentence: [(b\"count\",x) for x in sentence[0].split(\' \')] ),
-\"count\": (lambda inputs: (counts.update({inputs[0]:counts.get(inputs[0], 0)+1}))),
+\"count\": (lambda inputs: (data.update({inputs[0]:data.get(inputs[0], 0)+1}))),
 }
 """
 
@@ -86,6 +82,6 @@ def incr(x):
         
 
 app = webapp2.WSGIApplication([
-  ("/print", Spout),
+  ("/data", Data),
   ("/(.*)", Bolt),
 ], debug=True)
