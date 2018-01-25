@@ -18,8 +18,8 @@ class Spout(webapp2.RequestHandler):
     self.response.write(counts)
 
 
-def call(topology, payload):
-    url = 'http://localhost:8080/' + base64.b64encode(b'{}?{}'.format(topology, payload))
+def call(payload, topology):
+    url = 'http://localhost:8080/' + base64.b64encode(b'{}?{}'.format(payload, topology))
     response = requests.get(url)
     return response
 
@@ -34,7 +34,7 @@ class Bolt(webapp2.RequestHandler):
 
   def parse_payload(self, topology_str, topology, payload):
     if payload is None:
-        call(topology_str, b"\"spout\"")
+        call(b"\"spout\"", topology_str)
     elif isinstance(payload, basestring):
         if payload in topology:
             func_res = topology.get(payload)(None)
@@ -45,12 +45,12 @@ class Bolt(webapp2.RequestHandler):
         func_name, params = payload[0],payload[1:]
         if func_name in topology:
             func_res = topology.get(func_name)(params)
-            call(topology_str, func_res)
+            call(func_res, topology_str)
         else:
             self.response.write("error, no such func '%s'" % func_name)
     elif isinstance(payload, list):
-        for input_set in payload:
-            call(topology_str, input_set)
+        for sub_res in payload:
+            call(sub_res, topology_str)
 
 
   def get(self, data):
@@ -61,12 +61,12 @@ class Bolt(webapp2.RequestHandler):
     else:
         decoded_data = base64.decodestring(data)
         split_data = decoded_data.split('?')
-        topology_str = split_data[0]
-        payload = eval(split_data[1])
+        payload = eval(split_data[0])
         if payload is None:
             return
-
-
+        topology_str = split_data[1]
+        if len(split_data) > 2:
+            exec(split_data[2])
 
     if isinstance(topology_str, basestring):
         topology = eval(topology_str)
