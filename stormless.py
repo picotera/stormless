@@ -9,6 +9,7 @@ import base64
 # URLFetch.
 requests_toolbelt.adapters.appengine.monkeypatch()
 
+stormless_delimiter = "???"
 
 data = {}
 
@@ -18,8 +19,11 @@ class Data(webapp2.RequestHandler):
     self.response.write(data)
 
 
-def call(payload, topology, utils_str):
-    url = 'http://localhost:8080/' + base64.b64encode(b'{}?{}?{}'.format(payload, topology, utils_str))
+def call(payload, topology, utils):
+    url = 'http://localhost:8080/' + base64.b64encode(b'{payload}{d}{topology}{d}{utils}'.format(d=stormless_delimiter,
+        payload=payload, 
+        topology=topology, 
+        utils=utils))
     response = requests.get(url)
     return response
 
@@ -60,7 +64,7 @@ class Bolt(webapp2.RequestHandler):
     topology_str = self.topology
     if data:
         decoded_data = base64.decodestring(data)
-        split_data = decoded_data.split('?')
+        split_data = decoded_data.split(stormless_delimiter)
         payload = eval(split_data[0])
         if payload is None:
             return
