@@ -10,9 +10,9 @@ Topology is a dictionary of function calls. these functions must return a tuple 
 It looks somthing like this:
 ```
 {
-\"spout\": (lambda x: (\"split\", \"how much wood would the woodchuck chuck if the wouldchuck could chuck wood\")),
-\"split\": (lambda sentence: [(b\"count\",x) for x in sentence[0].split(\' \')] ),
-\"count\": (lambda inputs: (data.update({inputs[0]:data.get(inputs[0], 0)+1}))),
+"spout": (lambda x: ("split", "how much wood would the woodchuck chuck if the wouldchuck could chuck wood")),
+"split": (lambda sentence: [("count",x) for x in sentence[0].split(' ')] ),
+"count": (lambda inputs: (data.update({inputs[0]:data.get(inputs[0], 0)+1}))),
 }
 ```
 

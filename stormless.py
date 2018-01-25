@@ -31,7 +31,7 @@ def call(payload, topology, utils):
 class Bolt(webapp2.RequestHandler):
   topology = """{
 \"spout\": (lambda x: (\"split\", \"how much wood would the woodchuck chuck if the wouldchuck could chuck wood\")),
-\"split\": (lambda sentence: [(b\"count\",x) for x in sentence[0].split(\' \')] ),
+\"split\": (lambda sentence: [(\"count\",x) for x in sentence[0].split(\' \')] ),
 \"count\": (lambda inputs: (data.update({inputs[0]:data.get(inputs[0], 0)+1}))),
 }
 """
