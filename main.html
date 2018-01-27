@@ -1,0 +1,49 @@
+<html>
+<title>Stormless Topology Builder</title>
+
+<style type="text/css">
+.red{
+    color:red;
+    }
+.form-area
+{
+    background-color: #FAFAFA;
+    padding: 10px 40px 60px;
+    margin: 10px 0px 60px;
+    border: 1px solid GREY;
+    }
+</style>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="topology_submitter.js"></script>
+
+<div class="container">
+<div class="col-md-8">
+    <div class="form-area">  
+        <form role="form">
+        <br style="clear:both">
+                    <h3 style="margin-bottom: 25px; margin-left: 30px; text-align: left;">Stormless Topology Builder</h3>
+                    <div class="form-group">
+                        <textarea class="form-control" type="textarea" id="user_topology" placeholder="Topology" rows="8" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="user_payload_tuple" name="user_payload_tuple" placeholder="Initial Payload Tuple (optional)">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" type="textarea" id="user_utility_functions" placeholder="Utility Functions" rows="15"></textarea>
+                    </div>
+            
+        <button type="button" id="submit" name="submit" onclick="submit_topology()" class="btn btn-primary pull-right">Submit</button>
+        </form>
+    </div>
+</div>
+</div>
+</html>
