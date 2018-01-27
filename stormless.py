@@ -44,14 +44,18 @@ class Bolt(webapp2.RequestHandler):
             func_res = topology.get(payload)(None)
             self.parse_payload(topology_str, topology, func_res, utils_str)
         else:
-            self.response.write("error, no such func '%s'" % func_name)
+            error = "error, no such func '%s'" % func_name
+            data["STORMLESS_INTERNAL_ERROR"] = error
+            self.response.write(error)
     elif isinstance(payload, tuple):
         func_name, params = payload[0],payload[1:]
         if func_name in topology:
             func_res = topology.get(func_name)(params)
             call(func_res, topology_str, utils_str)
         else:
-            self.response.write("error, no such func '%s'" % func_name)
+            error = "error, no such func '%s'" % func_name
+            data["STORMLESS_INTERNAL_ERROR"] = error
+            self.response.write(error)
     elif isinstance(payload, list):
         for sub_res in payload:
             call(sub_res, topology_str, utils_str)
@@ -78,11 +82,13 @@ class Bolt(webapp2.RequestHandler):
     elif isinstance(topology_str, dict):
         topology = topology_str
     else:
-        self.response.write("Topology error: '%s'" % topology_str)
-
-    self.parse_payload(topology_str, topology, payload, utils_str)
+        error = "Topology error: '%s'" % topology_str)
+        data["STORMLESS_INTERNAL_ERROR"] = error
+        self.response.write(error)
 
     self.response.write("Job submitted")
+
+    self.parse_payload(topology_str, topology, payload, utils_str)
         
 
 app = webapp2.WSGIApplication([
