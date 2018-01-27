@@ -28,5 +28,8 @@ would enable us to use the `incr` function within our topology (note the use of 
 
 All data can be stored in the global dictionary `data`. This ditionary is returned by calling the service root URL with the addition of `/data` (see Hello World).
 
+### GUI and JS
+On the root dir of the project there also exists `main.html` and `topology_submitter.js` - files that would assist in running your first topology using a siple and intuitive interface. 
+
 ### API 
 The string representation of the payload (which consists of a tuple of the function name, and the input to that function), the topology, and the utility functions are concatenated in this order (payload, topology, utils) using the delimiter `???` (note that means you can't use '???' in your code) and encoded to base64. The resulting string should be sent as the suffix of the url like so: http://path.to.service:8080/SOME_BASE64_STRING. The resulting `data` dictionary can be seen using `curl http://path.to.service:8080/data`
