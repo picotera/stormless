@@ -33,6 +33,7 @@ function submit_topology() {
     var topology = document.getElementById('user_topology').value;
     var payload_tup = document.getElementById('user_payload_tuple').value;
     var utils = document.getElementById('user_utility_functions').value;
+
     var job_desc = payload_tup + delimiter + topology + delimiter + utils;
     var encoded_job = b64EncodeUnicode(job_desc);
 
